@@ -1,0 +1,66 @@
+/* Home.css */
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  padding: 0 32px;
+  background-size: cover;
+}
+
+ .leftSide {
+  height: 100%;
+  flex: 50%;
+  align-items: center;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.background-image {
+  width: 100%; /* Make the image width 100% of the container */
+  height: auto; /* Maintain aspect ratio */
+}
+.rightSide {
+  height: 100%;
+  flex: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.rightSide h1 {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-weight: 10;
+  font-size: 50px;
+  margin-left: 30px;
+}
+
+  .divItem {
+    flex: 1; /* Takes up equal space within the container */
+    min-width: 16px;
+    font-size: 12px; 
+  }
+
+
+  .footertitle {
+    font-weight: medium;
+  font-size: 1.5rem; /* Equivalent to text-xl */
+  padding-bottom: 0.75rem; /* Equivalent to pb-4 */
+  padding-top: 1.25rem; /* Equivalent to pt-5 */
+  margin-top: 0; /* Remove default margin */
+  margin-bottom: 0; 
+  }
+
+  
+  .bright-color-text {
+    color: #423d3d; 
+    padding-top: 1rem; 
+  }
+  @media screen and (max-width: 600px) {
+    .table-style {
+      /* Add your responsive styles here */
+    }
+  }
+  
