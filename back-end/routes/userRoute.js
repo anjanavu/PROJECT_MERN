@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 const Student = require('../model/studentModels');
+const { getSignedToken } = require('../lib/auth');
 
 router.post('/login', async (req, res) => {
     try {
@@ -11,14 +11,14 @@ router.post('/login', async (req, res) => {
         if (email === 'admin' && password === 'admin') {
             // Check hardcoded admin credentials
             let payload = { email: email, password: password };
-            token = jwt.sign(payload, 'reactexam');
+            token = getSignedToken(payload);
         } else {
             const foundUser = await Student.findOne({ email, password });
 
             if (foundUser) {
                 if (foundUser.exitTestConfirmation) {
                     let payload = { email: email, password: password };
-                    token = jwt.sign(payload, 'reactexam');
+                    token = getSignedToken(payload);
                 } else {
                     return res.status(401).send('You are not eligible for the exam!');
                 }
