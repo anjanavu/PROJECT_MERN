@@ -3,9 +3,8 @@ const router = express.Router();
 const studentData = require('../model/studentModels')
 const batchData = require('../model/batchModel')
 const nodemailer = require('nodemailer');
-const jwt = require('jsonwebtoken');
-router.use(express.json());
-router.use(express.urlencoded({ extended: true }));
+const jwt = require('jsonwebtoken')
+
 function verifytoken(req, res, next) {
   try {
     const token = req.headers.token;

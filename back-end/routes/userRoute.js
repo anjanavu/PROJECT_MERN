@@ -2,9 +2,8 @@ const express = require('express');
 const router = express.Router();
 const jwt=require('jsonwebtoken');
 const Student = require('../model/studentModels');
-router.use(express.json());
-router.use(express.urlencoded({ extended: true }));
-router.post('/', async (req, res) => {
+
+router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
         let token = null;

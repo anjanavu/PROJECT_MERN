@@ -10,7 +10,7 @@ const Login = () => {
   }
   function submitForm(e) {
     e.preventDefault();
-    axios.post('http://localhost:3033/user/', user)
+    axios.post('http://localhost:3033/user/login', user)
       .then((res) => {
         // alert(res.data.message);
         if (res.data.message === 'success') {
