@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const jwt=require('jsonwebtoken')
+const jwt=require('jsonwebtoken');
+const Student = require('../model/studentModels');
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 router.post('/', async (req, res) => {
@@ -9,19 +10,22 @@ router.post('/', async (req, res) => {
         let token = null;
 
         // Check if the user is in the database
-        // const foundUser = await postData.findOne({ email, password });
+        const foundUser = await Student.findOne({ email, password });
 
-        // if (foundUser) {
-        //     let payload = { email: email, password: password };
-        //     token = jwt.sign(payload, 'reactempapp');
-        // } else 
-        if (email === 'admin@gmail.com' && password === 'admin') {
+        if (foundUser) {
+            if(foundUser.exitTestConfirmation){
+            let payload = { email: email, password: password };
+            token = jwt.sign(payload, 'reactexam');
+            }else{
+               return res.status(401).send('You are not eligible for the exam!');
+            }
+        } else if (email === 'admin@gmail.com' && password === 'admin') {
             // Check hardcoded admin credentials
             let payload = { email: email, password: password };
             token = jwt.sign(payload, 'reactexam');
         } else {
-           
-            return res.status(401).send('Invalid credentials');
+            // No matching credentials
+            return res.status(401).send('Invalid credentials, please try again!');
         }
 
         res.status(200).send({ message: 'success', token: token });

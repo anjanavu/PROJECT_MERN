@@ -8,6 +8,8 @@ app.use(express.json());
 app.use(cors());
 const adminRouter = require('./routes/adminRoute');
 app.use('/user', adminRouter);
+
+
 const examRouter = require('./routes/examRoute');
 app.use('/exam', examRouter);
 

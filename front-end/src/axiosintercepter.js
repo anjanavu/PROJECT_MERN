@@ -1,19 +1,19 @@
 import axios from "axios";
-const axiosInstance=axios.create({
-    baseURL:"http://localhost:3033"
+const axiosInstance = axios.create({
+    baseURL: "http://localhost:3033"
 });
 
 
 
 //Request Interceptor
 
-axiosInstance.interceptors.request.use((config)=>{
-    const accessToken=sessionStorage.getItem('userToken');
-    if(accessToken){
-        if(config) config.headers.token=accessToken;
+axiosInstance.interceptors.request.use((config) => {
+    const accessToken = sessionStorage.getItem('userToken');
+    if (accessToken) {
+        if (config) config.headers.token = accessToken;
     }
     return config;
-},(error)=>{
+}, (error) => {
     return Promise.reject(error);
 }
 )
