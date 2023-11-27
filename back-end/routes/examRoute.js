@@ -32,6 +32,7 @@ router.get('/', verifytoken, async (req, res) => {
     res.status(404).json(error);
   }
 });
+
 router.get('/batch', verifytoken, async (req, res) => {
   try {
     const data = await batchData.find();
@@ -41,6 +42,7 @@ router.get('/batch', verifytoken, async (req, res) => {
     res.status(404).json(error);
   }
 });
+
 router.get('/:batchName', async (req, res) => {
   try {
     const batchName = req.params.batchName;
