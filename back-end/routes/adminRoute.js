@@ -15,12 +15,12 @@ router.post('/', async (req, res) => {
         //     let payload = { email: email, password: password };
         //     token = jwt.sign(payload, 'reactempapp');
         // } else 
-        if (email === 'admin' && password === 'admin') {
+        if (email === 'admin@gmail.com' && password === 'admin') {
             // Check hardcoded admin credentials
             let payload = { email: email, password: password };
             token = jwt.sign(payload, 'reactexam');
         } else {
-            // No matching credentials
+           
             return res.status(401).send('Invalid credentials');
         }
 

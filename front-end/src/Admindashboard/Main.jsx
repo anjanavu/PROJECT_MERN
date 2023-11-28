@@ -6,6 +6,7 @@ import Dashboard from './Dashboard'
 import Student from './Student'
 import Batches from './Batches'
 import Detail from './Detail'
+import Results from './Results'
 
 const Main = () => {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
@@ -37,6 +38,7 @@ const Main = () => {
           {selectedOption === 'students' && <Student />}
           {selectedOption === 'batches' && <Batches onSidebarItemClick={handleSidebarItemClick} />}
           {selectedOption === 'detail' && selectedBatch && <Detail batchName={selectedBatch} /> }
+          {selectedOption === 'results' && <Results />}
       </div>
   );
 };

@@ -21,14 +21,14 @@ const Student = () => {
     <div>
     <TableContainer component={Paper} sx={{ width: '90%', margin: '5%' }}>
  <Table  className="table-style" sx={{ minWidth: 1000 }} aria-label="simple table">
-   <TableHead className="table-head">
+   <TableHead className="table-head"style={{ backgroundColor: '' }}>
      <TableRow>
-       <TableCell align='center'>Name</TableCell>
-       <TableCell align="center">Email</TableCell>
-       <TableCell align="center">phone</TableCell>
-       <TableCell align="center">dob</TableCell>
-       <TableCell align="center">Exit Test</TableCell>
-       <TableCell align="center">Batch</TableCell>
+       <TableCell align='center'sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Name</TableCell>
+       <TableCell align="center"sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Email</TableCell>
+       <TableCell align="center"sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>phone</TableCell>
+       <TableCell align="center"sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Status</TableCell>
+       <TableCell align="center"sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Exit Test</TableCell>
+       <TableCell align="center"sx={{ border: '1px solid #dddddd' , fontWeight: 'bold'}}>Batch</TableCell>
 
      </TableRow>
    </TableHead>
@@ -39,8 +39,8 @@ const Student = () => {
          <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{val.name}</TableCell>
          <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{val.email}</TableCell>
          <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{val.phone}</TableCell>
-         <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{new Date(val.dob).toLocaleDateString('en-GB')}</TableCell>
-         <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{val.exitTestConfirmation.toString()}</TableCell>
+         <TableCell align='center'sx={{ border: '1px solid #dddddd' }}style={{ color: val.status ? 'black' : 'red' }}>{val.status ? 'Yes' : 'No'}</TableCell>
+         <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{val.exitTestConfirmation ? 'Yes' : 'No'}</TableCell>
          <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{val.batchId ? val.batchId.batchName : ''}</TableCell>
        </TableRow>
      ))

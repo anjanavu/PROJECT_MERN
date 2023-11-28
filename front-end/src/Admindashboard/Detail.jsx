@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../axiosintercepter';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import '../Dashboard.css';
 
 const Detail = ({ batchName }) => {
@@ -9,7 +9,7 @@ const Detail = ({ batchName }) => {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const response = await axiosInstance.get(`http://localhost:3033/exam/${batchName}`);
+        const response = await axiosInstance.get(`http://localhost:3033/exam/batch/${batchName}`);
         console.log('Fetched Data:', response.data);
         setBatchDetails(response.data);
       } catch (error) {
@@ -22,26 +22,29 @@ const Detail = ({ batchName }) => {
   
   return (
     <main className='main-container'>
-      <div>
+      <div >
+      <Typography sx={{margin:'3%'}}variant="h4" gutterBottom style={{ textAlign: 'center',fontWeight:'bold',color:'black' }}>
+           {batchName}
+        </Typography>
         <TableContainer component={Paper} sx={{ width: '90%', margin: '5%' }}>
           <Table className="table-style" sx={{ minWidth: 500 }} aria-label="simple table">
             <TableHead className="table-head">
               <TableRow>
-                <TableCell align='center'>Name</TableCell>
-                <TableCell align="center">Email</TableCell>
-                <TableCell align="center">Phone</TableCell>
-                <TableCell align="center">DOB</TableCell>
-                <TableCell align="center">Exit Test</TableCell>
+                <TableCell align='center'sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Name</TableCell>
+                <TableCell align="center"sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Email</TableCell>
+                <TableCell align="center"sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Phone</TableCell>
+                <TableCell align="center"sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Status</TableCell>
+                <TableCell align="center"sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Exit Test</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
             {batchDetails.map((student) => (
   <TableRow key={student._id}>
-    <TableCell align='center'>{student.name}</TableCell>
-    <TableCell align='center'>{student.email}</TableCell>
-    <TableCell align='center'>{student.phone}</TableCell>
-    <TableCell align='center'>{new Date(student.dob).toLocaleDateString()}</TableCell>
-    <TableCell align='center'>{student.exitTestConfirmation ? 'Yes' : 'No'}</TableCell>
+    <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{student.name}</TableCell>
+    <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{student.email}</TableCell>
+    <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{student.phone}</TableCell>
+    <TableCell align='center'sx={{ border: '1px solid #dddddd' }}style={{ color: student.status ? 'black' : 'red' }}>{student.status ? 'Yes' : 'No'}</TableCell>
+    <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{student.exitTestConfirmation ? 'Yes' : 'No'}</TableCell>
   </TableRow>
 ))}
 

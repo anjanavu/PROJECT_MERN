@@ -15,7 +15,7 @@ const Login = () => {
         alert(res.data.message);
         if (res.data.message === 'success') {
           sessionStorage.setItem("userToken", res.data.token);
-          if (user.email === 'admin') {
+          if (user.email === 'admin@gmail.com') {
             navigate('/dashboard');
           } else {
             navigate('/home');

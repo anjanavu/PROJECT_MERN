@@ -26,7 +26,7 @@ const Dashboard = ({ onSidebarItemClick  }) => {
                    
                 </div>
             </div>
-            <div className='card'>
+            <div className='card'onClick={() => onSidebarItemClick('results')}>
             <img src='https://static.toiimg.com/thumb/msid-103029883,width-400,resizemode-4/103029883.jpg' alt='email'/>
                 <div className='card-inner'>
                 <h4>Email</h4>

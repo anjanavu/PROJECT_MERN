@@ -59,8 +59,7 @@
     padding-top: 1rem; 
   }
   @media screen and (max-width: 600px) {
-    .table-style {
-      /* Add your responsive styles here */
-    }
+    /* .table-style {
+    } */
   }
   

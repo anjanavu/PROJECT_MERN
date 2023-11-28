@@ -31,7 +31,7 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar, onSidebarItemClick  }) => {
         {/* <li className='sidebar-list-item'>
           <BsListCheck className='icon' /> Inventory
         </li> */}
-        <li className='sidebar-list-item'>
+        <li className='sidebar-list-item' onClick={() => onSidebarItemClick('results')}>
           <BsMenuButtonWideFill className='icon' /> Results
         </li>
         {/* <li className='sidebar-list-item'>

@@ -1,11 +1,4 @@
-/* body {
-    margin: 0;
-    padding: 0;
-    background-color: rgb(255, 255, 255);
-    color: #9e9ea4;
-    font-family: 'Montserrat', sans-serif;
-  } */
-  
+
   .icon {
     vertical-align: middle;
     line-height: 1px;
@@ -105,11 +98,7 @@
   .sidebar-responsive {
     display: inline !important;
     position: absolute;
-    /*
-      we want the z-index of the sidebar higher so that
-      the charts are not showing over the sidebar 
-      on small screens
-    */
+
     z-index: 12 !important;
   }
   

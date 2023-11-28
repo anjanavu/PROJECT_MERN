@@ -1,4 +1,4 @@
-// studentModel.js
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -42,7 +42,6 @@ const studentSchema = new Schema({
     ref: 'batches',
     required: true
   }
-  // Add other student fields as needed
 });
 
 const Student = mongoose.model('students', studentSchema);
