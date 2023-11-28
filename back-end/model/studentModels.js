@@ -12,19 +12,6 @@ const studentSchema = new Schema({
     required: true,
     unique: true
   },
-  phone: {
-    type: String,
-    required: true
-  },
-  dob: {
-    type: Date,
-    required: true
-  },
-  gender: {
-    type: String,
-    enum: ['Male', 'Female', 'Other'],
-    required: true
-  },
   exitTestConfirmation: {
     type: Boolean,
     default: false
@@ -36,12 +23,13 @@ const studentSchema = new Schema({
   status: {
     type: Boolean,
     default: true
-  },
-  batchId: {
-    type: Schema.Types.ObjectId,
-    ref: 'batches',
-    required: true
   }
+  // ,
+  // batchId: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'batches',
+  //   required: true
+  // }
 });
 
 const Student = mongoose.model('students', studentSchema);
