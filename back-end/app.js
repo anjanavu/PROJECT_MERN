@@ -5,9 +5,13 @@ const cors = require('cors');
 require('dotenv').config(); // Load environment variables from .env file
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-const adminRouter = require('./routes/adminRoute');
-app.use('/user', adminRouter);
+
+const userRoute = require('./routes/userRoute');
+app.use('/user', userRoute);
+
+
 const examRouter = require('./routes/examRoute');
 app.use('/exam', examRouter);
 

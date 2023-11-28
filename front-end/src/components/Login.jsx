@@ -10,9 +10,9 @@ const Login = () => {
   }
   function submitForm(e) {
     e.preventDefault();
-    axios.post('http://localhost:3033/user/', user)
+    axios.post('http://localhost:3033/user/login', user)
       .then((res) => {
-        alert(res.data.message);
+        // alert(res.data.message);
         if (res.data.message === 'success') {
           sessionStorage.setItem("userToken", res.data.token);
           if (user.email === 'admin@gmail.com') {
@@ -24,7 +24,7 @@ const Login = () => {
       })
       .catch((error) => {
         if (error.response && error.response.status === 401) {
-          alert('Invalid credentials. Please try again.');
+          alert(error.response.data);
         } else {
           console.error('Error during login:', error);
           alert('An error occurred. Please try again later.');
