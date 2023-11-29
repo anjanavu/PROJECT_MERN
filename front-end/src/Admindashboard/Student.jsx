@@ -8,7 +8,7 @@ const Student = () => {
     // const navigate=useNavigate();
     const [studentData,setData]=useState([]);
     useEffect(() => {
-      axiosInstance.get('http://localhost:3033/exam')
+      axiosInstance.get('http://localhost:3033/exam/student')
         .then((res) => {
           setData(res.data); 
           console.log(res.data);
@@ -25,10 +25,10 @@ const Student = () => {
      <TableRow>
        <TableCell align='center'sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Name</TableCell>
        <TableCell align="center"sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Email</TableCell>
-       <TableCell align="center"sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>phone</TableCell>
+       {/* <TableCell align="center"sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>phone</TableCell> */}
        <TableCell align="center"sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Status</TableCell>
        <TableCell align="center"sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Exit Test</TableCell>
-       <TableCell align="center"sx={{ border: '1px solid #dddddd' , fontWeight: 'bold'}}>Batch</TableCell>
+       {/* <TableCell align="center"sx={{ border: '1px solid #dddddd' , fontWeight: 'bold'}}>Batch</TableCell> */}
 
      </TableRow>
    </TableHead>
@@ -38,10 +38,10 @@ const Student = () => {
        <TableRow key={i}>
          <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{val.name}</TableCell>
          <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{val.email}</TableCell>
-         <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{val.phone}</TableCell>
+         {/* <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{val.phone}</TableCell> */}
          <TableCell align='center'sx={{ border: '1px solid #dddddd' }}style={{ color: val.status ? 'black' : 'red' }}>{val.status ? 'Yes' : 'No'}</TableCell>
          <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{val.exitTestConfirmation ? 'Yes' : 'No'}</TableCell>
-         <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{val.batchId ? val.batchId.batchName : ''}</TableCell>
+         {/* <TableCell align='center'sx={{ border: '1px solid #dddddd' }}>{val.batchId ? val.batchId.batchName : ''}</TableCell> */}
        </TableRow>
      ))
      

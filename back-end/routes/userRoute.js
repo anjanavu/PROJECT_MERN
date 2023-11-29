@@ -8,7 +8,7 @@ router.post('/login', async (req, res) => {
         const { email, password } = req.body;
         let token = null;
 
-        if (email === 'admin' && password === 'admin') {
+        if (email === 'admin@gmail.com' && password === 'admin') {
             // Check hardcoded admin credentials
             let payload = { email: email, password: password };
             token = getSignedToken(payload);
