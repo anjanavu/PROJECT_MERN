@@ -14,6 +14,8 @@ app.use('/user', userRoute);
 
 const examRouter = require('./routes/examRoute');
 app.use('/exam', examRouter);
+const studentRouter = require('./routes/studentRoute');
+app.use('/student', studentRouter);
 
 mongoose.connect(process.env.MONGODB_URL, {
   useNewUrlParser: true,

@@ -10,9 +10,10 @@ function verifyToken(req, res, next) {
         if (!token) throw 'Unauthorized';
 
         let payload = jwt.verify(token, JWT_SECRET);
+        
 
         if (!payload) throw 'Unauthorized';
-
+        req.authUser = payload;
         next()
     } catch (error) {
         console.log(error);
