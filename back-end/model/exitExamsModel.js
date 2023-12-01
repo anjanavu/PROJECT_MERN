@@ -36,7 +36,7 @@ const exitExamsSchema = new Schema({
     required: true
   }
   
-});
+}, {collection:'exitExams'});
 
 const exitExams = mongoose.model('exitExams', exitExamsSchema);
 
