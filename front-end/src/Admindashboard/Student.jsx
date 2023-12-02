@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '../axiosintercepter'
-import '../Style.css'
-import '../Dashboard.css'
+import '../Css/Style.css'
+import '../Css/Dashboard.css'
 import { RingLoader } from 'react-spinners';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 const Student = () => {

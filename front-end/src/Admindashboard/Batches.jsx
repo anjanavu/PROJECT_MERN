@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../axiosintercepter';
 import { RingLoader } from 'react-spinners';
-import '../Dashboard.css';
+import '../Css/Dashboard.css';
 
 const Batches = ({ onSidebarItemClick }) => {
   const [loading, setLoading] = useState(true);

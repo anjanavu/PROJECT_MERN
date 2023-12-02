@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../axiosintercepter';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
-import '../Dashboard.css';
+import '../Css/Dashboard.css';
 const Detail = ({ _id }) => {
   const [batchDetails, setBatchDetails] = useState([]);
 

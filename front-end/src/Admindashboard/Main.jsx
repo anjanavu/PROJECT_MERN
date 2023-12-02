@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import '../Dashboard.css'
+import '../Css/Dashboard.css'
 import Header from './Header'
 import Sidebar from './Sidebar'
 import Dashboard from './Dashboard'
