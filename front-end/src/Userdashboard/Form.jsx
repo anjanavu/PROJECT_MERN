@@ -33,26 +33,29 @@ const Form = () => {
     const[currentUser , setCurrentUser] = useState([]);
     useEffect(() => {
       axiosInstance.get('http://localhost:3033/student/current')
-      .then((res) => {
-        setCurrentUser(res.data);
-        if(res.data.status === true){
-          setFormVisibility(false);
-          // alert('you are already registered for the exam');
-          setVisibility(true);
-          return;
-        }
-        if(res.status === 200 ) {
-          setFormVisibility(true);
-        }
-       
-        setPostData({...postData,
-          studentId:res.data._id,
-          name:res.data.name,
-          email:res.data.email
-        });
-
-      })
-    },[]);
+        .then((res) => {
+          setCurrentUser(res.data);
+          if (res.data.status === true) {
+            setFormVisibility(false);
+            // alert('you are already registered for the exam');
+            setVisibility(true);
+            return;
+          }
+          if (res.status === 200) {
+            setFormVisibility(true);
+          }
+    
+          setPostData((prevData) => ({
+            ...prevData,
+            studentId: res.data._id,
+            name: res.data.name,
+            email: res.data.email
+          }));
+    
+        })
+    }, [postData]);
+    
+    
     
   
     // useEffect(() => {
@@ -91,7 +94,7 @@ const Form = () => {
           <Grid item lg={8} >
             <Box component="form" onSubmit={handleSubmit}  noValidate autoComplete="off"
               sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                '& .MuiTextField-root': { m: 1, width: '25ch' }, 
                 
               }}
               style={{ display: isFormVisible ? "block" : "none" }}
@@ -129,7 +132,7 @@ const Form = () => {
                   <TextField select label="Gender" onChange={(e) => {
                     setPostData({ ...postData, gender: e.target.value })
                     }}>
-                    {["Male", "Female"].map((name) => (
+                    {["Male", "Female","Other"].map((name) => (
                       <MenuItem key={name} value={name} >
                         {name}
                       </MenuItem>
@@ -146,7 +149,6 @@ const Form = () => {
 
           <Grid item lg={2}>
           </Grid>
-
         </Grid>
       </Container>
     </div>

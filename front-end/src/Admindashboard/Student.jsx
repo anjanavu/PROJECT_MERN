@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react'
 import axiosInstance from '../axiosintercepter'
 import '../Style.css'
 import '../Dashboard.css'
-
+import { RingLoader } from 'react-spinners';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 const Student = () => {
-    // const navigate=useNavigate();
+    const [loading, setLoading] = useState(true);
     const [studentData,setData]=useState([]);
     useEffect(() => {
       axiosInstance.get('http://localhost:3033/exam/student')
         .then((res) => {
           setData(res.data); 
+          setLoading(false); 
           console.log(res.data);
         })
 
@@ -19,6 +20,11 @@ const Student = () => {
   return (
     <main className='main-container'>
     <div>
+    {loading ? (
+         <div className="spinner-container">
+         <RingLoader color={'#123abc'} loading={loading} size={50} />
+       </div>
+     ) : (
     <TableContainer component={Paper} sx={{ width: '90%', margin: '5%' }}>
  <Table  className="table-style" sx={{ minWidth: 1000 }} aria-label="simple table">
    <TableHead className="table-head"style={{ backgroundColor: '' }}>
@@ -50,6 +56,7 @@ const Student = () => {
    </TableBody>
  </Table>
 </TableContainer>
+ )}
  </div>
  </main>
   )

@@ -20,7 +20,7 @@ const Main = () => {
   const handleSidebarItemClick = (option, data) => {
     setSelectedOption(option);
     if (option === 'detail') {
-      setSelectedBatch(data.batchName);
+      setSelectedBatch(data._id);
     }
   };
 
@@ -37,7 +37,7 @@ const Main = () => {
           {selectedOption === 'dashboard' && <Dashboard onSidebarItemClick={handleSidebarItemClick} />}
           {selectedOption === 'students' && <Student />}
           {selectedOption === 'batches' && <Batches onSidebarItemClick={handleSidebarItemClick} />}
-          {selectedOption === 'detail' && selectedBatch && <Detail batchName={selectedBatch} /> }
+          {selectedOption === 'detail' && selectedBatch && <Detail _id={selectedBatch} /> }
           {selectedOption === 'results' && <Results />}
       </div>
   );
