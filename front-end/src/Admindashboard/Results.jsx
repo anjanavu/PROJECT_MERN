@@ -14,11 +14,11 @@ const Results = () => {
   const [batches, setBatches] = useState([]);
   const [selectedBatch, setSelectedBatch] = useState("");
   const [resultLink, setResultLink] = useState('');
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchBatches = async () => {
       try {
-        const response = await axiosInstance.get('http://localhost:3033/exam/batches');
+        const response = await axiosInstance.get('http://localhost:3033/exam/batch');
         setBatches(response.data);
       } catch (error) {
         console.error('Error fetching batches:', error);
@@ -38,6 +38,7 @@ const Results = () => {
 
   const sendEmails = async () => {
     try {
+      setLoading(true);
       // Send a POST request to your backend to trigger email sending
       const response = await axiosInstance.post(`http://localhost:3033/exam/send-email/${selectedBatch}`, {
         resultLink: resultLink,
@@ -48,6 +49,9 @@ const Results = () => {
       window.location.reload(false);
     } catch (error) {
       console.error('Error sending emails:', error);
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -93,6 +97,8 @@ const Results = () => {
             color="primary"
             style={{ marginTop: '20px' }}
             onClick={sendEmails}
+            disabled={loading}
+
           >
             Send
           </Button>

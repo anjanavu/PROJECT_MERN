@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom'
           {title} {/* <BsSearch  className='icon'/> */}
         </div>
         <div className='header-right'>
-    <Link to={'/'}>
+    <Link to={'/logout'}>
             <BsBoxArrowRight className='icon'/></Link>
         </div>
     </header>

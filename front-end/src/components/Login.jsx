@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import '../Login.css'
+import '../Css/Login.css'
 import {  useNavigate } from 'react-router-dom'
 import axios from 'axios';
 const Login = () => {
@@ -16,6 +16,7 @@ const Login = () => {
         if (res.data.message === 'success') {
           sessionStorage.setItem("userToken", res.data.token);
           if (user.email === 'admin@gmail.com') {
+            alert(res.data.message);
             navigate('/dashboard');
           } else {
             navigate('/home');

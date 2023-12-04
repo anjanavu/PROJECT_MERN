@@ -39,7 +39,7 @@ router.get('/:id', verifyToken, async (req, res) => {
   }
 });
 
-router.post('/postData', verifyToken, async (req, res) => {
+router.post('/postData',  async (req, res) => {
   try {
     const data = req.body;
     const exitExam = new ExitExam(data);
@@ -48,7 +48,6 @@ router.post('/postData', verifyToken, async (req, res) => {
     const student = await studentData.findOne({ "_id": data.studentId });
     student.set("status", true);
     await student.save();
-
     console.log(student);
     res.json('successfully uploaded');
 
