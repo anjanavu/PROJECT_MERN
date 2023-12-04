@@ -7,7 +7,7 @@ import axiosInstance from '../axiosintercepter';
 const Form = () => {
 
   const [isFormVisible, setFormVisibility] = useState(false);
-  const [Visible, setVisibility] = useState(false);
+  const [visible, setVisibility] = useState(false);
 
 
   const [batches, setBatches] = useState([]);
@@ -25,39 +25,31 @@ const Form = () => {
     dob:'',
     gender:'',
     batchId:'',
-    studentId:'',
-    name:'',
-    email:''
+    studentId:''
   });
 
-    const[currentUser , setCurrentUser] = useState([]);
-    useEffect(() => {
-      axiosInstance.get('http://localhost:3033/student/current')
-        .then((res) => {
-          setCurrentUser(res.data);
-          if (res.data.status === true) {
-            setFormVisibility(false);
-            // alert('you are already registered for the exam');
-            setVisibility(true);
-            return;
-          }
-          if (res.status === 200) {
-            setFormVisibility(true);
-          }
-    
-          setPostData((prevData) => ({
-            ...prevData,
-            studentId: res.data._id,
-            name: res.data.name,
-            email: res.data.email
-          }));
-    
-        })
-    }, [postData]);
-    
-    
-    
+  const[currentUser , setCurrentUser] = useState([]);
+  useEffect(() => {
+    axiosInstance.get('http://localhost:3033/student/current')
+      .then((res) => {
+        setCurrentUser(res.data);
+        if (res.data.status === true) {
+          setFormVisibility(false);
+          // alert('you are already registered for the exam');
+          setVisibility(true);
+          return;
+        }
+        if (res.status === 200) {
+          setFormVisibility(true);
+        }
+
+        setPostData({...postData,
+          studentId:res.data._id
+        });
   
+      })
+  }, []);
+
     // useEffect(() => {
     //   axiosInstance.post('http://localhost:3033/student/postData', {
         
@@ -76,6 +68,7 @@ const Form = () => {
         .then((res) => {
           alert('successfully registered')
           setFormVisibility(false);
+          setVisibility(true);
         })
         .catch((error)=> {
           alert('error');
@@ -144,7 +137,7 @@ const Form = () => {
                 <Button type='submit' variant="outlined" style={{ marginLeft: '30%' }} >Submit</Button>
               </div>
             </Box>
-            <h2 style={{ display: Visible ? "block" : "none" ,color:'green', margin:'150px'}}>You are already registered</h2>
+            <h2 style={{ display: visible ? "block" : "none" ,color:'green', margin:'150px'}}>You are already registered</h2>
           </Grid>
 
           <Grid item lg={2}>
