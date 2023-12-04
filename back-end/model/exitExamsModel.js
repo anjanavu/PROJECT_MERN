@@ -34,6 +34,10 @@ const exitExamsSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'students',
     required: true
+  },
+  result:{
+    type: Number,
+    required: false
   }
   
 }, {collection:'exitExams'});

@@ -30,15 +30,27 @@ router.get('/batch', verifyToken, async (req, res) => {
 router.get('/batch/:batchId',verifyToken, async (req, res) => {
   try {
     const { batchId } = req.params;
-    
-    const students = await examData.find({ batchId }).populate('studentId', ['name', 'email', 'exitTestConfirmation', 'status']);
 
-    res.json(students);
+    const students = await examData.find({ batchId })
+      .populate('studentId', ['name', 'email', 'exitTestConfirmation', 'status']);
+
+    if (req.accepts("text/csv")) {
+      const csvData = students.map((student) => [student._id, student.studentId.name, student.studentId.email, student.result]);
+      csvData.unshift(["Id", "Name", "Email", "Result"]);
+
+      res.header('Content-Type', 'text/csv');
+      res.send(csvData.join("\n"));
+    } else {
+      res.json(students);
+    }
   } catch (error) {
     console.error("Error occurred while fetching students:", error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+
 
 //------Send Email-----------
 router.post('/send-email/:batchId', verifyToken, async (req, res) => {
