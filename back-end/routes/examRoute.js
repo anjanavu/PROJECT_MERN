@@ -26,12 +26,11 @@ router.get('/batch', verifyToken, async (req, res) => {
     res.status(404).json(error);
   }
 });
-
+//---------Get Batch By Id------------
 router.get('/batch/:batchId',verifyToken, async (req, res) => {
   try {
     const { batchId } = req.params;
     
-    // Fetch students from the sample collection with the specified batchId
     const students = await examData.find({ batchId }).populate('studentId', ['name', 'email', 'exitTestConfirmation', 'status']);
 
     res.json(students);
@@ -41,18 +40,16 @@ router.get('/batch/:batchId',verifyToken, async (req, res) => {
   }
 });
 
-
+//------Send Email-----------
 router.post('/send-email/:batchId', verifyToken, async (req, res) => {
   try {
     const { batchId } = req.params;
     const { resultLink } = req.body;
 
-    // Fetch students from the sample collection with the specified batchId
     const students = await examData
       .find({ batchId })
       .populate('studentId', ['name', 'email', 'exitTestConfirmation', 'status']);
 
-    // Create a nodemailer transporter
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -60,10 +57,7 @@ router.post('/send-email/:batchId', verifyToken, async (req, res) => {
         pass: process.env.EMAIL_PASSWORD,
       },
     });
-
-    // Send emails to each student
     for (const student of students) {
-      // Check if the student has provided an email and has confirmed the exit test
       if (student.studentId.email && student.studentId.exitTestConfirmation) {
         const mailOptions = {
           from:process.env.EMAIL_USER ,
