@@ -39,6 +39,7 @@ const Main = () => {
           {selectedOption === 'batches' && <Batches onSidebarItemClick={handleSidebarItemClick} />}
           {selectedOption === 'detail' && selectedBatch && <Detail _id={selectedBatch} /> }
           {selectedOption === 'results' && <Results />}
+          
       </div>
   );
 };

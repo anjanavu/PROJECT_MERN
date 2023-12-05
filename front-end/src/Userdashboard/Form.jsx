@@ -35,20 +35,20 @@ const Form = () => {
         setCurrentUser(res.data);
         if (res.data.status === true) {
           setFormVisibility(false);
-          // alert('you are already registered for the exam');
           setVisibility(true);
           return;
         }
         if (res.status === 200) {
           setFormVisibility(true);
         }
-
-        setPostData({...postData,
-          studentId:res.data._id
-        });
   
-      })
-  }, []);
+        setPostData((prevData) => ({
+          ...prevData,
+          studentId: res.data._id
+        }));
+      });
+  }, [postData]);  // Add postData to the dependency array
+  
 
     // useEffect(() => {
     //   axiosInstance.post('http://localhost:3033/student/postData', {
