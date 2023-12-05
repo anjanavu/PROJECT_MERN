@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../axiosintercepter';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Fab, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
 import '../Css/Dashboard.css';
+
+const columnStyle = { border: '1px solid #dddddd', textAlign: "center" };
+const headerColumnStyle = { ...columnStyle, fontWeight: 'bold' };
+
 const Detail = ({ _id }) => {
   const [batchDetails, setBatchDetails] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(`http://localhost:3033/exam/batch/${_id}`);
+        const response = await axiosInstance.get(`http://localhost:3033/exam/batch/${_id}`, {
+          headers: {
+            Accept: 'application/json'
+          }
+        });
         console.log('Batch Details API response:', response.data);
         setBatchDetails(response.data);
       } catch (error) {
@@ -22,30 +31,49 @@ const Detail = ({ _id }) => {
 
   console.log('Batch Details:', batchDetails);
 
+  async function downloadCSV() {
+    const response = await axiosInstance.get(`http://localhost:3033/exam/batch/${_id}`, {
+      responseType: 'blob',
+      headers: {
+        Accept: 'text/csv'
+      }
+    });
+
+    const url = window.URL.createObjectURL(new Blob([response.data], { type: 'text/csv' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `${_id}.csv`);
+
+    link.click();
+  }
+
   return (
     <main className='main-container'>
       <div>
         <Typography sx={{ margin: '3%' }} variant="h4" gutterBottom style={{ textAlign: 'center', fontWeight: 'bold', color: 'black' }}>
           Batch Details
         </Typography>
+        <Fab style={{float: "right", margin: "0 5% 16px 0 "}} color="primary" variant="extended" size="small" aria-label="add" onClick={downloadCSV}>
+          <DownloadIcon /> Download csv
+        </Fab>
         <TableContainer component={Paper} sx={{ width: '90%', margin: '5%' }}>
           <Table className="table-style" sx={{ minWidth: 500 }} aria-label="simple table">
             <TableHead className="table-head">
               <TableRow>
-                <TableCell align='center' sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Student Name</TableCell>
-                <TableCell align="center" sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Emailr</TableCell>
-                <TableCell align="center" sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Eligible for Test</TableCell>
-                <TableCell align="center" sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Register Status </TableCell>
+                <TableCell sx={headerColumnStyle}>Student Name</TableCell>
+                <TableCell sx={headerColumnStyle}>Email</TableCell>
+                <TableCell sx={headerColumnStyle}>Register Status</TableCell>
+                <TableCell sx={headerColumnStyle}>Result</TableCell>
                 {/* Add more columns as needed */}
               </TableRow>
             </TableHead>
             <TableBody>
               {batchDetails.map((student, index) => (
                 <TableRow key={index}>
-                  <TableCell align='center' sx={{ border: '1px solid #dddddd' }}>{student.studentId.name}</TableCell>
-                  <TableCell align='center' sx={{ border: '1px solid #dddddd' }}>{student.studentId.email}</TableCell>
-                  <TableCell align='center' sx={{ border: '1px solid #dddddd' }}style={{ color:student.studentId.exitTestConfirmation ? 'black' : 'red' }}>{student.studentId.exitTestConfirmation ? 'Yes' : 'No'}</TableCell>
-                  <TableCell align='center' sx={{ border: '1px solid #dddddd' }}style={{ color:student.studentId.status ? 'black' : 'red' }}>{student.studentId.status ? 'Yes' : 'No'}</TableCell>
+                  <TableCell sx={columnStyle}>{student.studentId.name}</TableCell>
+                  <TableCell sx={columnStyle}>{student.studentId.email}</TableCell>
+                  <TableCell sx={columnStyle} style={{ color:student.studentId.status ? 'black' : 'red' }}>{student.studentId.status ? 'Yes' : 'No'}</TableCell>
+                  <TableCell sx={columnStyle}>{student.result || "-"}</TableCell>
                   {/* Add more cells based on the structure of your data */}
                 </TableRow>
               ))}
