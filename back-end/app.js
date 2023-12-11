@@ -1,6 +1,8 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const mongoose = require('mongoose');
 const app = express();
+app.use(fileUpload());
 const cors = require('cors');
 require('dotenv').config(); 
 

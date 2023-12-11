@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from '../axiosintercepter';
 import { Fab, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
+import SendIcon from '@mui/icons-material/Send';
 import '../Css/Dashboard.css';
 
 const columnStyle = { border: '1px solid #dddddd', textAlign: "center" };
@@ -46,14 +47,43 @@ const Detail = ({ _id }) => {
 
     link.click();
   }
-
+  const sendEmails = async () => {
+    try {
+      // Assuming you have an API endpoint for sending emails
+      const response = await axiosInstance.post('http://localhost:3033/exam/send-emails', {
+        batchDetails, // You can pass the batchDetails to the server for processing
+      });
+      alert('Emaail sent successfully');
+      window.location.reload(false);
+      console.log('Emails sent successfully:', response.data);
+      // Add any UI feedback if needed
+    } catch (error) {
+      console.error('Error sending emails:', error);
+      // Handle error, e.g., display an error message to the user.
+    }
+  };
   return (
     <main className='main-container'>
       <div>
         <Typography sx={{ margin: '3%' }} variant="h4" gutterBottom style={{ textAlign: 'center', fontWeight: 'bold', color: 'black' }}>
           Batch Details
         </Typography>
-        <Fab style={{float: "right", margin: "0 5% 16px 0 "}} color="primary" variant="extended" size="small" aria-label="add" onClick={downloadCSV}>
+        <Fab
+          style={{ float: "right", margin: "0 5% 16px 0", backgroundColor: '#636C75', color: 'white', textTransform: 'none' }}
+          variant="extended"
+          size="small"
+          aria-label="add"
+          onClick={sendEmails}
+        >
+          <SendIcon style={{ marginLeft: '8px' }} /> Send Result
+        </Fab>
+        <Fab
+          style={{ float: "right", margin: "0 5% 16px 0", backgroundColor: '#636C75', color: 'white', textTransform: 'none' }}
+          variant="extended"
+          size="small"
+          aria-label="add"
+          onClick={downloadCSV}
+        >
           <DownloadIcon /> Download csv
         </Fab>
         <TableContainer component={Paper} sx={{ width: '90%', margin: '5%' }}>
@@ -80,6 +110,7 @@ const Detail = ({ _id }) => {
             </TableBody>
           </Table>
         </TableContainer>
+        
       </div>
     </main>
   );

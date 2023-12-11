@@ -49,19 +49,43 @@ router.get('/batch/:batchId',verifyToken, async (req, res) => {
   }
 });
 
+const { Types } = require('mongoose');
+
+router.post('/upload-result/:batchId', verifyToken, async (req, res) => {
+  try {
+    const { batchId } = req.params;
+    const { csvFile } = req.files; 
+
+    const students = await examData.find({ batchId }).populate('studentId');
+    const csvData = csvFile.data.toString('utf8');
+    const lines = csvData.split('\n');
+
+    for (const line of lines.slice(1)) { 
+      const [studentId, name, email, result] = line.split(',');
+
+      const student = students.find((s) => s.studentId.email === email.trim());
+
+      if (student) {
+        student.result = parseInt(result, 10);
+        await student.save();
+      } else {
+        console.error(`Student with email ${email} not found`);
+      }
+    }
+
+    res.send('Results uploaded successfully');
+  } catch (error) {
+    console.error('Error uploading results:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 
 
 //------Send Email-----------
-router.post('/send-email/:batchId', verifyToken, async (req, res) => {
+router.post('/send-emails', verifyToken, async (req, res) => {
   try {
-    const { batchId } = req.params;
-    const { resultLink } = req.body;
-
-    const students = await examData
-      .find({ batchId })
-      .populate('studentId', ['name', 'email', 'exitTestConfirmation', 'status']);
-
+    const { batchDetails } = req.body;
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -69,18 +93,18 @@ router.post('/send-email/:batchId', verifyToken, async (req, res) => {
         pass: process.env.EMAIL_PASSWORD,
       },
     });
-    for (const student of students) {
-      if (student.studentId.email && student.studentId.exitTestConfirmation) {
+    for (const student of batchDetails) {
+      const { studentId, result } = student
         const mailOptions = {
           from:process.env.EMAIL_USER ,
           to: student.studentId.email,
           subject: 'Exam Results',
-          text: `Dear ${student.studentId.name},\n\nThe exam results are out! You can check them at: ${resultLink}`,
-        };
+        text: `Dear ${studentId.name},\n\nYour exam result is: ${result || '-'}`,
+       };
 
-        // Send the email
+       
         await transporter.sendMail(mailOptions);
-      }
+      
     }
 
     res.send( 'Emails sent successfully');
