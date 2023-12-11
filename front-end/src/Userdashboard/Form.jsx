@@ -8,9 +8,18 @@ const Form = () => {
 
   const [isFormVisible, setFormVisibility] = useState(false);
   const [visible, setVisibility] = useState(false);
-
-
   const [batches, setBatches] = useState([]);
+  const [currentUser, setCurrentUser] = useState([]);
+  const [postData, setPostData] = useState({
+    phone: '',
+    dob: '',
+    gender: '',
+    batchId: '',
+    studentId: ''
+  });
+
+  const [phoneFieldState, setFormFieldState] = useState({error: false, text: ""});
+  const [dobFieldState, setdobFieldState] = useState({error: false, text: ""});
   useEffect(() => {
     axiosInstance.get('http://localhost:3033/exam/batch')
       .then((res) => {
@@ -20,15 +29,7 @@ const Form = () => {
 
   }, []);
 
-  const[postData , setPostData] = useState({
-    phone:'',
-    dob:'',
-    gender:'',
-    batchId:'',
-    studentId:''
-  });
-
-  const[currentUser , setCurrentUser] = useState([]);
+  
   useEffect(() => {
     axiosInstance.get('http://localhost:3033/student/current')
       .then((res) => {
@@ -41,39 +42,54 @@ const Form = () => {
         if (res.status === 200) {
           setFormVisibility(true);
         }
-  
+
         setPostData((prevData) => ({
           ...prevData,
           studentId: res.data._id
         }));
       });
-  }, [postData]);  // Add postData to the dependency array
-  
+  }, []);  // Add postData to the dependency array
 
-    // useEffect(() => {
-    //   axiosInstance.post('http://localhost:3033/student/postData', {
-        
-    //   })
-    //   .then((res) => {
-    //     setPostData(res.data);
-    //   })
-    // },[]);
 
-   
-
-    function handleSubmit(e){
-      e.preventDefault();
-      console.log(postData);
-      axiosInstance.post('http://localhost:3033/student/postData',postData)
-        .then((res) => {
-          alert('successfully registered')
-          setFormVisibility(false);
-          setVisibility(true);
-        })
-        .catch((error)=> {
-          alert('error');
-        })
+  function handleSubmit(e) {
+    e.preventDefault();
+    if(phoneFieldState.error || dobFieldState.error){
+      return;
     }
+    axiosInstance.post('http://localhost:3033/student/postData', postData)
+      .then((res) => {
+        alert('successfully registered')
+        setFormVisibility(false);
+        setVisibility(true);
+      })
+      .catch((error) => {
+        alert('error');
+      })
+  }
+
+  /* /\d\d\/\d\d\/\d\d\d\d/ */
+  const onPhoneNumberChange = (e) => {
+    const phone = e.target.value || "";
+
+    if (phone.match(/[0-9]{10}/g)) {
+      setFormFieldState({error: false, text: ""});
+      setPostData({ ...postData, phone });
+    } else {
+      setFormFieldState({error: true, text: "Invalid phone number"});
+    }
+  };
+ /* /(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/ */
+const onDateOfBirth = (e) => {
+  const dob = e.target.value || "";
+
+  if(dob.match(/(0[1-9]|1[012])\/(0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d/)) {
+    setdobFieldState({error: false , text: ""})
+    setPostData({ ...postData, dob })
+  }else{
+    setdobFieldState({error: true , text: "Invalid Date Of Birth"})
+  }
+}
+
   return (
     <div >
       <Header title='User' />
@@ -85,59 +101,56 @@ const Form = () => {
           <Grid item lg={2}></Grid>
 
           <Grid item lg={8} >
-            <Box component="form" onSubmit={handleSubmit}  noValidate autoComplete="off"
+            <Box component="form" onSubmit={handleSubmit} autoComplete="off"
               sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' }, 
-                
+                '& .MuiTextField-root': { m: 1, width: '25ch' },
+
               }}
               style={{ display: isFormVisible ? "block" : "none" }}
-              >
+            >
               <div>
-                  <div>
-                      <h1 style={{ textAlign: 'center', marginTop: '20px',  marginRight: '150px',color:'#282c34'}}>
-                        Exam Registration Form
-                      </h1>
-                  </div>
-                  <TextField disabled label="Name" value={currentUser.name} ></TextField>
-                  <TextField label="Phone Number" onChange={(e) => {
-                    setPostData({ ...postData, phone: e.target.value })
-                    }}
-                    value={postData.phone}>
-                  </TextField>
+                <div>
+                  <h1 style={{ textAlign: 'center', marginTop: '20px', marginRight: '150px', color: '#282c34' }}>
+                    Exam Registration Form
+                  </h1>
+                </div>
+                <TextField disabled label="Name" required value={currentUser.name} ></TextField>
+                <TextField label="Phone Number" required onChange={onPhoneNumberChange} 
+                  error={phoneFieldState.error} helperText={phoneFieldState.text}>
+                </TextField>
 
-                  <TextField label="DOB" placeholder='mm/dd/yyy'onChange={(e) => {
-                    setPostData({ ...postData, dob: e.target.value })
-                    }}
-                    value={postData.dob}></TextField>
+                <TextField label="DOB" required placeholder='mm/dd/yyyy' onChange={onDateOfBirth}
+                  error={dobFieldState.error} helperText={dobFieldState.text}
+                  ></TextField>
 
-                  <TextField disabled label="Email" value={currentUser.email} ></TextField>
+                <TextField disabled label="Email" value={currentUser.email} ></TextField>
 
-                  <TextField select label="Batch Name" onChange={(e) => {
-                    setPostData({ ...postData, batchId: e.target.value })
-                    }}>
-                    {batches.map((option) => (
-                      <MenuItem key={option._id} value={option._id} >
-                        {option.batchName}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                <TextField select label="Batch Name" required onChange={(e) => {
+                  setPostData({ ...postData, batchId: e.target.value })
+                }} value={postData.batchId}>
+                  {batches.map((option) => (
+                    <MenuItem key={option._id} value={option._id} >
+                      {option.batchName}
+                    </MenuItem>
+                  ))}
+                </TextField>
 
-                  <TextField select label="Gender" onChange={(e) => {
-                    setPostData({ ...postData, gender: e.target.value })
-                    }}>
-                    {["Male", "Female","Other"].map((name) => (
-                      <MenuItem key={name} value={name} >
-                        {name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                <TextField select label="Gender" required onChange={(e) => {
+                  setPostData({ ...postData, gender: e.target.value })
+                }} value={postData.gender}>
+                  {["Male", "Female", "Other"].map((name) => (
+                    <MenuItem key={name} value={name} >
+                      {name}
+                    </MenuItem>
+                  ))}
+                </TextField>
 
                 <br />
                 <br />
                 <Button type='submit' variant="outlined" style={{ marginLeft: '30%' }} >Submit</Button>
               </div>
             </Box>
-            <h2 style={{ display: visible ? "block" : "none" ,color:'green', margin:'150px'}}>You are already registered</h2>
+            <h2 style={{ display: visible ? "block" : "none", color: 'green', margin: '150px' }}>You are already registered</h2>
           </Grid>
 
           <Grid item lg={2}>
