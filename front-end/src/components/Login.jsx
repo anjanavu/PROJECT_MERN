@@ -39,13 +39,13 @@ const Login = () => {
       <div className="rightSide">
         <h1> Login</h1>
 
-        <form id="contact-form" >
+        <form id="contact-form" onSubmit={submitForm} >
 
           <label htmlFor="email">Email</label>
-          <input name="email" type="email" onChange={inputHandler}/>
+          <input name="email" required type="email" onChange={inputHandler}/>
           <label htmlFor="password">Password</label>
-          <input name="password" type="password" onChange={inputHandler} />
-         <button onClick={submitForm}> Login</button>
+          <input name="password" required type="password" onChange={inputHandler} />
+         <button type='submit'> Login</button>
         </form>
 
 
