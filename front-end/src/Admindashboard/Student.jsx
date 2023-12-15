@@ -8,7 +8,7 @@ const Student = () => {
     const [loading, setLoading] = useState(true);
     const [studentData,setData]=useState([]);
     useEffect(() => {
-      axiosInstance.get('http://localhost:3033/exam/student')
+      axiosInstance.get('/exam/student')
         .then((res) => {
           setData(res.data); 
           setLoading(false); 

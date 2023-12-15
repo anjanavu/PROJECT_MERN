@@ -16,7 +16,7 @@ const Detail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(`http://localhost:3033/exam/batch/${_id}`, {
+        const response = await axiosInstance.get(`/exam/batch/${_id}`, {
           headers: {
             Accept: 'application/json'
           }
@@ -35,7 +35,7 @@ const Detail = () => {
   console.log('Batch Details:', batchDetails);
 
   async function downloadCSV() {
-    const response = await axiosInstance.get(`http://localhost:3033/exam/batch/${_id}`, {
+    const response = await axiosInstance.get(`/exam/batch/${_id}`, {
       responseType: 'blob',
       headers: {
         Accept: 'text/csv'
@@ -52,7 +52,7 @@ const Detail = () => {
   const sendEmails = async () => {
     try {
       // Assuming you have an API endpoint for sending emails
-      const response = await axiosInstance.post('http://localhost:3033/exam/send-emails', {
+      const response = await axiosInstance.post('/exam/send-emails', {
         batchDetails, // You can pass the batchDetails to the server for processing
       });
       alert('Email sent successfully');
