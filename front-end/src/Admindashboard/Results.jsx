@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { FormControl, InputLabel, MenuItem, Select, Button, Box, TextField } from '@mui/material';
 import axiosInstance from '../axiosintercepter';
-
+import '../Css/Dashboard.css'
 const Results = () => {
   const [batches, setBatches] = useState([]);
   const [selectedBatch, setSelectedBatch] = useState("");
   const [csvFile, setCsvFile] = useState(null);
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     const fetchBatches = async () => {
       try {
@@ -20,7 +19,7 @@ const Results = () => {
 
     fetchBatches();
   }, []);
-
+  
   const handleBatchChange = (event) => {
     setSelectedBatch(event.target.value);
   };
@@ -47,6 +46,7 @@ const Results = () => {
   };
 
   return (
+   
     <main className='main-container'>
     <Box
       sx={{

@@ -126,12 +126,14 @@
   }
   
   .card {
+  
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    padding: 8px 15px;
+    padding: 8px 10px;
     border-radius: 5px;
-   
+    width: 250px; /* Reduced width */
+    height: 250px; /* Reduced height */
   }
   
   /* .card:first-child {
@@ -196,8 +198,10 @@
   
   /* Extra Small <= 576px */
   
-  @media screen and (max-width: 576px) {
-    .hedaer-left {
-      display: none;
-    }
+/* Extra Small <= 576px */
+@media screen and (max-width: 576px) {
+  .header-left,
+  .header-right {
+    display: none;
   }
+}

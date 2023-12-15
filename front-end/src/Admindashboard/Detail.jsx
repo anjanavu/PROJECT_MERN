@@ -4,11 +4,13 @@ import { Fab, Paper, Table, TableBody, TableCell, TableContainer, TableHead, Tab
 import DownloadIcon from '@mui/icons-material/Download';
 import SendIcon from '@mui/icons-material/Send';
 import '../Css/Dashboard.css';
-
+import { useParams } from 'react-router-dom';  
 const columnStyle = { border: '1px solid #dddddd', textAlign: "center" };
 const headerColumnStyle = { ...columnStyle, fontWeight: 'bold' };
 
-const Detail = ({ _id }) => {
+const Detail = () => {
+  // Use the useParams hook to get the parameters from the route
+  const { _id } = useParams();
   const [batchDetails, setBatchDetails] = useState([]);
 
   useEffect(() => {

@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from '../axiosintercepter';
 import { RingLoader } from 'react-spinners';
 import '../Css/Dashboard.css';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
-const Batches = ({ onSidebarItemClick }) => {
+const Batches = () => {
   const [loading, setLoading] = useState(true);
   const [batchData, setData] = useState([]);
+  const navigate = useNavigate(); // Initialize the useNavigate hook
 
   useEffect(() => {
     axiosInstance.get('http://localhost:3033/exam/batch')
@@ -17,8 +19,10 @@ const Batches = ({ onSidebarItemClick }) => {
   }, []);
 
   const handleBatchClick = (_id) => {
-    onSidebarItemClick('detail', { _id });
+    console.log('Clicked batch _id:', _id);
+    navigate(`/detail/${_id}`);
   };
+  
 
   return (
     <main className='main-container'>

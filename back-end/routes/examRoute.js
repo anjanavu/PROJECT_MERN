@@ -30,7 +30,7 @@ router.get('/batch', verifyToken, async (req, res) => {
 router.get('/batch/:batchId',verifyToken, async (req, res) => {
   try {
     const { batchId } = req.params;
-
+    console.log('Received batchId:', batchId);
     const students = await examData.find({ batchId })
       .populate('studentId', ['name', 'email', 'exitTestConfirmation', 'status']);
 
