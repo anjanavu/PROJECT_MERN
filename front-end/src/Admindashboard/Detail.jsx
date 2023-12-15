@@ -53,7 +53,7 @@ const Detail = ({ _id }) => {
       const response = await axiosInstance.post('http://localhost:3033/exam/send-emails', {
         batchDetails, // You can pass the batchDetails to the server for processing
       });
-      alert('Emaail sent successfully');
+      alert('Email sent successfully');
       window.location.reload(false);
       console.log('Emails sent successfully:', response.data);
       // Add any UI feedback if needed
