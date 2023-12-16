@@ -12,7 +12,7 @@ const Results = () => {
   useEffect(() => {
     const fetchBatches = async () => {
       try {
-        const response = await axiosInstance.get('/exam/batch');
+        const response = await axiosInstance.get('http://localhost:3033/exam/batch');
         setBatches(response.data);
       } catch (error) {
         console.error('Error fetching batches:', error);
@@ -36,7 +36,7 @@ const Results = () => {
       setLoading(true);
       const formData = new FormData();
       formData.append('csvFile', csvFile);
-      await axiosInstance.post(`/exam/upload-result/${selectedBatch}`, formData);
+      await axiosInstance.post(`http://localhost:3033/exam/upload-result/${selectedBatch}`, formData);
       alert('Results uploaded successfully');
       window.location.reload(false);
     } catch (error) {

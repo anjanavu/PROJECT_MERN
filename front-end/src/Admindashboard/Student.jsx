@@ -8,7 +8,7 @@ const Student = () => {
     const [loading, setLoading] = useState(true);
     const [studentData,setData]=useState([]);
     useEffect(() => {
-      axiosInstance.get('/exam/student')
+      axiosInstance.get('http://localhost:3033/exam/student')
         .then((res) => {
           setData(res.data); 
           setLoading(false); 
@@ -27,7 +27,7 @@ const Student = () => {
      ) : (
     <TableContainer component={Paper} sx={{ width: '90%', margin: '5%' }}>
  <Table  className="table-style" sx={{ minWidth: 1000 }} aria-label="simple table">
-   <TableHead className="table-head"style={{ backgroundColor: '' }}>
+   <TableHead className="table-head"sx={{ backgroundColor: '#A9A9A9', color: 'white' }}>
      <TableRow>
        <TableCell align='center'sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Name</TableCell>
        <TableCell align="center"sx={{ border: '1px solid #dddddd', fontWeight: 'bold' }}>Email</TableCell>

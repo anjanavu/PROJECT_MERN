@@ -18,7 +18,7 @@ const Header = ({ handleSidebarToggle, title = "Admin" }) => {
         {title}
       </div>
       <div className='header-right'>
-        <Link to='/logout'>
+        <Link to='/logout'style={{ textDecoration: 'none',color:'black'}}>
           <BsBoxArrowRight className='icon_header' />
         </Link>
       </div>

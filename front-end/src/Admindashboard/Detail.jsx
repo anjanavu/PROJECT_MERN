@@ -16,7 +16,7 @@ const Detail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(`/exam/batch/${_id}`, {
+        const response = await axiosInstance.get(`http://localhost:3033/exam/batch/${_id}`, {
           headers: {
             Accept: 'application/json'
           }
@@ -35,7 +35,7 @@ const Detail = () => {
   console.log('Batch Details:', batchDetails);
 
   async function downloadCSV() {
-    const response = await axiosInstance.get(`/exam/batch/${_id}`, {
+    const response = await axiosInstance.get(`http://localhost:3033/exam/batch/${_id}`, {
       responseType: 'blob',
       headers: {
         Accept: 'text/csv'
@@ -52,7 +52,7 @@ const Detail = () => {
   const sendEmails = async () => {
     try {
       // Assuming you have an API endpoint for sending emails
-      const response = await axiosInstance.post('/exam/send-emails', {
+      const response = await axiosInstance.post('http://localhost:3033/exam/send-emails', {
         batchDetails, // You can pass the batchDetails to the server for processing
       });
       alert('Email sent successfully');
@@ -67,11 +67,13 @@ const Detail = () => {
   return (
     <main className='main-container'>
       <div>
+      {batchDetails && batchDetails.batchDetails && (
+        <>
         <Typography sx={{ margin: '3%' }} variant="h4" gutterBottom style={{ textAlign: 'center', fontWeight: 'bold', color: 'black' }}>
-          Batch Details
+         <h1 style={{ fontSize: '2.5rem', marginBottom: '16px', color: '#000000' }}>{batchDetails.batchDetails.batchName}</h1>
         </Typography>
         <Fab
-          style={{ float: "right", margin: "0 5% 16px 0", backgroundColor: '#636C75', color: 'white', textTransform: 'none' }}
+          style={{ float: "right", margin: "0 5% 16px 0", backgroundColor: '#000000', color: 'white', textTransform: 'none' }}
           variant="extended"
           size="small"
           aria-label="add"
@@ -80,7 +82,7 @@ const Detail = () => {
           <SendIcon style={{ marginLeft: '8px' }} /> Send Result
         </Fab>
         <Fab
-          style={{ float: "right", margin: "0 5% 16px 0", backgroundColor: '#636C75', color: 'white', textTransform: 'none' }}
+          style={{ float: "right", margin: "0 5% 16px 0", backgroundColor: '#000000', color: 'white', textTransform: 'none' }}
           variant="extended"
           size="small"
           aria-label="add"
@@ -90,7 +92,7 @@ const Detail = () => {
         </Fab>
         <TableContainer component={Paper} sx={{ width: '90%', margin: '5%' }}>
           <Table className="table-style" sx={{ minWidth: 500 }} aria-label="simple table">
-            <TableHead className="table-head">
+            <TableHead className="table-head"sx={{ backgroundColor: '#A9A9A9', color: 'white' }}>
               <TableRow>
                 <TableCell sx={headerColumnStyle}>Student Name</TableCell>
                 <TableCell sx={headerColumnStyle}>Email</TableCell>
@@ -100,7 +102,7 @@ const Detail = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {batchDetails.map((student, index) => (
+              {batchDetails.students.map((student, index) => (
                 <TableRow key={index}>
                   <TableCell sx={columnStyle}>{student.studentId.name}</TableCell>
                   <TableCell sx={columnStyle}>{student.studentId.email}</TableCell>
@@ -111,8 +113,9 @@ const Detail = () => {
               ))}
             </TableBody>
           </Table>
-        </TableContainer>
-        
+        </TableContainer> 
+        </>
+        )}
       </div>
     </main>
   );
