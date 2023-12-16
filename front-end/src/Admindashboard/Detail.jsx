@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../axiosintercepter';
-import { Fab, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Fab, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, CircularProgress } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import SendIcon from '@mui/icons-material/Send';
 import '../Css/Dashboard.css';
-import { useParams } from 'react-router-dom';  
+import { useParams } from 'react-router-dom'; 
+
 const columnStyle = { border: '1px solid #dddddd', textAlign: "center" };
 const headerColumnStyle = { ...columnStyle, fontWeight: 'bold' };
 
 const Detail = () => {
-  // Use the useParams hook to get the parameters from the route
   const { _id } = useParams();
   const [batchDetails, setBatchDetails] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +35,34 @@ const Detail = () => {
 
   console.log('Batch Details:', batchDetails);
 
+  const sendEmails = async () => {
+    try {
+      // Show a loading indicator
+      setLoading(true);
+
+      // Assuming you have an API endpoint for sending emails
+      const response = await axiosInstance.post('http://localhost:3033/exam/send-emails', {
+        batchDetails,
+      });
+
+      // Hide the loading indicator
+      setLoading(false);
+
+      // Trigger the alert after the email operation is completed
+      alert('Email sent successfully');
+      window.location.reload(false);
+      console.log('Emails sent successfully:', response.data);
+      // Add any UI feedback if needed
+    } catch (error) {
+      console.error('Error sending emails:', error);
+
+      // Hide the loading indicator in case of an error
+      setLoading(false);
+
+      // Handle error, e.g., display an error message to the user.
+    }
+  };
+
   async function downloadCSV() {
     const response = await axiosInstance.get(`http://localhost:3033/exam/batch/${_id}`, {
       responseType: 'blob',
@@ -49,50 +78,36 @@ const Detail = () => {
 
     link.click();
   }
-  const sendEmails = async () => {
-    try {
-      // Assuming you have an API endpoint for sending emails
-      const response = await axiosInstance.post('http://localhost:3033/exam/send-emails', {
-        batchDetails, // You can pass the batchDetails to the server for processing
-      });
-      alert('Email sent successfully');
-      window.location.reload(false);
-      console.log('Emails sent successfully:', response.data);
-      // Add any UI feedback if needed
-    } catch (error) {
-      console.error('Error sending emails:', error);
-      // Handle error, e.g., display an error message to the user.
-    }
-  };
+
   return (
     <main className='main-container'>
       <div>
-      {batchDetails && batchDetails.batchDetails && (
-        <>
         <Typography sx={{ margin: '3%' }} variant="h4" gutterBottom style={{ textAlign: 'center', fontWeight: 'bold', color: 'black' }}>
-         <h1 style={{ fontSize: '2.5rem', marginBottom: '16px', color: '#000000' }}>{batchDetails.batchDetails.batchName}</h1>
+          Batch Details
         </Typography>
-        <Fab
-          style={{ float: "right", margin: "0 5% 16px 0", backgroundColor: '#000000', color: 'white', textTransform: 'none' }}
-          variant="extended"
-          size="small"
-          aria-label="add"
-          onClick={sendEmails}
-        >
-          <SendIcon style={{ marginLeft: '8px' }} /> Send Result
-        </Fab>
-        <Fab
-          style={{ float: "right", margin: "0 5% 16px 0", backgroundColor: '#000000', color: 'white', textTransform: 'none' }}
-          variant="extended"
-          size="small"
-          aria-label="add"
-          onClick={downloadCSV}
-        >
-          <DownloadIcon /> Download csv
-        </Fab>
+        <div className="fab-buttons">
+          <Fab
+            style={{ float: "right", margin: "0 5% 16px 0", backgroundColor: '#000000', color: 'white', textTransform: 'none' }}
+            variant="extended"
+            size="small"
+            aria-label="add"
+            onClick={sendEmails}
+          >
+            {loading ? <CircularProgress size={20} style={{ marginRight: '8px' }} /> : <SendIcon style={{ marginLeft: '8px' }} />} Send Result
+          </Fab>
+          <Fab
+            style={{ float: "right", margin: "0 5% 16px 0", backgroundColor: '#000000', color: 'white', textTransform: 'none' }}
+            variant="extended"
+            size="small"
+            aria-label="add"
+            onClick={downloadCSV}
+          >
+            <DownloadIcon /> Download csv
+          </Fab>
+        </div>
         <TableContainer component={Paper} sx={{ width: '90%', margin: '5%' }}>
           <Table className="table-style" sx={{ minWidth: 500 }} aria-label="simple table">
-            <TableHead className="table-head"sx={{ backgroundColor: '#A9A9A9', color: 'white' }}>
+            <TableHead className="table-head" sx={{ backgroundColor: '#A9A9A9', color: 'white' }}>
               <TableRow>
                 <TableCell sx={headerColumnStyle}>Student Name</TableCell>
                 <TableCell sx={headerColumnStyle}>Email</TableCell>
@@ -102,7 +117,7 @@ const Detail = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {batchDetails.students.map((student, index) => (
+              {batchDetails.map((student, index) => (
                 <TableRow key={index}>
                   <TableCell sx={columnStyle}>{student.studentId.name}</TableCell>
                   <TableCell sx={columnStyle}>{student.studentId.email}</TableCell>
@@ -113,9 +128,7 @@ const Detail = () => {
               ))}
             </TableBody>
           </Table>
-        </TableContainer> 
-        </>
-        )}
+        </TableContainer>
       </div>
     </main>
   );
