@@ -21,7 +21,7 @@ const Form = () => {
   const [phoneFieldState, setFormFieldState] = useState({error: false, text: ""});
   const [dobFieldState, setdobFieldState] = useState({error: false, text: ""});
   useEffect(() => {
-    axiosInstance.get('http://localhost:3033/exam/batch')
+    axiosInstance.get('/exam/batch')
       .then((res) => {
         setBatches(res.data);
         console.log(res.data);
@@ -31,7 +31,7 @@ const Form = () => {
 
   
   useEffect(() => {
-    axiosInstance.get('http://localhost:3033/student/current')
+    axiosInstance.get('/student/current')
       .then((res) => {
         setCurrentUser(res.data);
         if (res.data.status === true) {
@@ -56,7 +56,7 @@ const Form = () => {
     if(phoneFieldState.error || dobFieldState.error){
       return;
     }
-    axiosInstance.post('http://localhost:3033/student/postData', postData)
+    axiosInstance.post('/student/postData', postData)
       .then((res) => {
         alert('successfully registered')
         setFormVisibility(false);

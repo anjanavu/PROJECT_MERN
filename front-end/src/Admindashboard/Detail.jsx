@@ -13,11 +13,21 @@ const Detail = () => {
   const { _id } = useParams();
   const [batchDetails, setBatchDetails] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [batchName, setBatchName] = useState('');
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(`http://localhost:3033/exam/batch/${_id}`, {
+        const batchResponse = await axiosInstance.get(`/exam/batch/${_id}/name`, {
+          headers: {
+            Accept: 'application/json'
+          }
+        });
+  
+        const batchName = batchResponse.data.name;
+        setBatchName(batchName);
+        const response = await axiosInstance.get(`/exam/batch/${_id}`, {
           headers: {
             Accept: 'application/json'
           }
@@ -41,7 +51,7 @@ const Detail = () => {
       setLoading(true);
 
       // Assuming you have an API endpoint for sending emails
-      const response = await axiosInstance.post('http://localhost:3033/exam/send-emails', {
+      const response = await axiosInstance.post('/exam/send-emails', {
         batchDetails,
       });
 
@@ -64,7 +74,7 @@ const Detail = () => {
   };
 
   async function downloadCSV() {
-    const response = await axiosInstance.get(`http://localhost:3033/exam/batch/${_id}`, {
+    const response = await axiosInstance.get(`/exam/batch/${_id}`, {
       responseType: 'blob',
       headers: {
         Accept: 'text/csv'
@@ -83,7 +93,7 @@ const Detail = () => {
     <main className='main-container'>
       <div>
         <Typography sx={{ margin: '3%' }} variant="h4" gutterBottom style={{ textAlign: 'center', fontWeight: 'bold', color: 'black' }}>
-          Batch Details
+        {batchName}
         </Typography>
         <div className="fab-buttons">
           <Fab

@@ -10,7 +10,7 @@ const Batches = () => {
   const navigate = useNavigate(); // Initialize the useNavigate hook
 
   useEffect(() => {
-    axiosInstance.get('http://localhost:3033/exam/batch')
+    axiosInstance.get('/exam/batch')
       .then((res) => {
         setData(res.data);
         setLoading(false);
